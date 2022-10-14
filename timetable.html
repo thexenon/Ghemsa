@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BIOSSA-KNUST official post website">
+    <meta name="author" content="Derek Donkor">
+    <link rel="stylesheet" href="index.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <title>TimeTable Upload Page</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+    <link rel="manifest" href="../site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-storage.js"></script>
+</head>
+
+<body>
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyCd5aVDkmdNXw7_YIKlDBopYnTyQ_P1ThA",
+            authDomain: "ghemsa-app.firebaseapp.com",
+            databaseURL: "https://ghemsa-app-default-rtdb.firebaseio.com",
+            projectId: "ghemsa-app",
+            storageBucket: "ghemsa-app.appspot.com",
+            messagingSenderId: "234156203811",
+            appId: "1:234156203811:web:0a54bf90cdec35b68e7696",
+            measurementId: "G-5JP0G9EZ7C"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.auth.Auth.Persistence.LOCAL;
+    </script>
+
+
+    <div class="jumbotron bg-dark" style="margin-top: 10px;">
+
+        <div class="container text-center">
+            <form action="" class="main-form" id="main-form">
+                <div class="form-group">
+                    <label for="gender" style="color: aliceblue;">Choose a Personality Type</label><br>
+                    <select name="gender" id="post-gender">
+                        <option value="" selected></option>
+                        <option value="Year 1">Year 1</option>
+                        <option value="Year 2">Year 2</option>
+                        <option value="Year 3">Year 3</option>
+                        <option value="Year 4">Year 4</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Select a Class.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input id="main-image" type="file" class="form-control">
+                    <div class="invalid-feedback">
+                        Please choose a valid picture.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <img id="selected-image" src="#" width="250" height="150">
+                </div>
+                <div class="form-group">
+                    <div class="progress bg-secondary">
+                        <div id="upload-progress" class="progress-bar bg-success" style="width: 0%;">0%</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button id="save-blog" type="button" class="btn btn-light bg-light text-dark" style="width: 150px; height: 60px;">Save & Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        var validImagetypes = ["image/gif", "image/png", "image/jpg", "image/jpeg", "image/bmp"];
+        $("#selected-image").hide();
+
+        function previewImage(image_blog) {
+
+            if (image_blog.files && image_blog.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $("#selected-image").attr('src', e.target.result);
+                    $("#selected-image").fadeIn();
+                }
+                reader.readAsDataURL(image_blog.files[0]);
+            }
+            //$("#selected-image").show();
+        }
+
+        $("#main-image").change(function() {
+            previewImage(this);
+        });
+
+        $("#save-blog").click(function() {
+            $("#main-image").removeClass("is-invalid");
+            $("#post-gender").removeClass("is-invalid");
+
+            
+            var gender = $("#post-gender").val();
+
+            
+            if (gender === "") {
+                $("#post-gender").addClass("is-invalid");
+                return;
+            }
+            var picture = $("#main-image").prop("files")[0];
+            if (picture == null) {
+                $("#main-image").addClass("is-invalid");
+                return;
+            }
+            if ($.inArray(picture["type"], validImagetypes) < 0) {
+                $("#main-image").addClass("is-invalid");
+                return;
+            }
+
+
+            var genderName;
+            var dateStr = new Date().getTime();
+            var numberStr = 10000000000000 - dateStr
+            var databaseRef = firebase.database().ref().child("TimeTable");
+            databaseRef.once("value").then(function() {
+                var name = picture["name"];
+                var dateStr = new Date().getTime();
+                var fileCompleteName = "0" + numberStr;
+
+                var storageRef = firebase.storage().ref("TimeTable");
+                var blogStorageRef = storageRef.child(fileCompleteName);
+
+                var uploadTask = blogStorageRef.put(picture);
+
+                uploadTask.on("state_changed",
+                    function progress(snapshot) {
+                        var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        $("#upload-progress").html(Math.round(percentage) + "%");
+                        $("#upload-progress").attr("style", "width: " + percentage + "%");
+
+                        uploadTask.snapshot.ref.getDownloadURL().then(function(downloadUrl) {
+                            var time = new Date();
+                            var dateStr = new Date().getTime();
+                            if (gender == "Year 3") {
+                                genderName = 3
+                            } else if (gender == "Year 1") {
+                                genderName = 1
+                            } else if (gender == "Year 2") {
+                                genderName = 2
+                            } else if (gender == "Year 4") {
+                                genderName = 4
+                            };
+                            var option = {
+                                weekday: "long",
+                                month: "long",
+                                day: "2-digit",
+                                year: "numeric",
+                            };
+                            var blogData = {
+                                "PostImage": downloadUrl,
+                                "name": fileCompleteName,
+                                "PostTitle": "Year " + genderName + " Time Table",
+                                "time": time.toLocaleString('en-US', {
+                                    hours: 'numeric',
+                                    minutes: 'numeric',
+                                    seconds: 'numeric',
+                                    hours12: true
+                                }),
+                                "date": time.toLocaleDateString('en-US', option),
+                                "count": 10000000000000 - dateStr,
+                            };
+
+                            var newPostRef = databaseRef.child("0" + genderName + "00000000000");
+                            //var newPostRef = firebase.firestore.collection("Blogs");
+
+                            newPostRef.set(blogData, function(err) {
+                                if (!err) {
+                                    $("#result").attr("class", "alert alert-success");
+                                    $("#result").html("Post has been uploaded successfully...!");
+
+                                    $("#main-form")[0].reset();
+                                    $("#selected-image").fadeOut();
+                                    $("#upload-progress").html("Completed...!");
+
+                                    window.location.assign("index.html");
+
+
+                                } else {
+                                    $("#result").attr("class", "alert alert-danger");
+                                    $("#result").html("An error occuried in the upload of your post...!");
+                                }
+                            });
+                        });
+                    },
+                );
+            });
+        })
+    </script>
+
+</body>
+
+</html>

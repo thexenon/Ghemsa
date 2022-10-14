@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BIOSSA-KNUST official Video website">
+    <meta name="author" content="Derek Donkor">
+    <link rel="stylesheet" href="index.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <title>Video Tutorials Upload Page</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+    <link rel="manifest" href="../site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-storage.js"></script>
+</head>
+
+<body>
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyCd5aVDkmdNXw7_YIKlDBopYnTyQ_P1ThA",
+    authDomain: "ghemsa-app.firebaseapp.com",
+    databaseURL: "https://ghemsa-app-default-rtdb.firebaseio.com",
+    projectId: "ghemsa-app",
+    storageBucket: "ghemsa-app.appspot.com",
+    messagingSenderId: "234156203811",
+    appId: "1:234156203811:web:0a54bf90cdec35b68e7696",
+    measurementId: "G-5JP0G9EZ7C"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.auth.Auth.Persistence.LOCAL;
+    </script>
+
+
+    <div class="jumbotron bg-dark" style="margin-top: 10px;">
+
+        <div class="container text-center">
+            <form action="" class="main-form" id="main-form">
+                <div class="form-group">
+                    <input id="main-title" rows="4" placeholder="Video Title..." class="form-control">
+
+                    <div class="invalid-feedback">
+                        Write a Video Title.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input id="main-subtitle" rows="4" placeholder="Video URL..." class="form-control">
+
+                    <div class="invalid-feedback">
+                        Write a URL.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <textarea id="main-desc" rows="4" placeholder="Video Description..." class="form-control"></textarea>
+                    <div class="invalid-feedback">
+                        Write a Video Description.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button id="save-blog" type="button" class="btn btn-light bg-light text-dark" style="width: 150px; height: 60px;">Save & Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        $("#save-blog").click(function() {
+            $("#main-desc").removeClass("is-invalid");
+            $("#main-title").removeClass("is-invalid");
+            $("#main-subtitle").removeClass("is-invalid");
+
+            var desc = $("#main-desc").val();
+            var title = $("#main-title").val();
+            var subtitle = $("#main-subtitle").val();
+
+            if (!title) {
+                $("#main-title").addClass("is-invalid");
+                return;
+            }
+            if (!subtitle) {
+                $("#main-subtitle").addClass("is-invalid");
+                return;
+            }
+            if (!desc) {
+                $("#main-desc").addClass("is-invalid");
+                return;
+            }
+
+
+            var dateStr = new Date().getTime();
+            var numberStr = 10000000000000 - dateStr
+            var databaseRef = firebase.database().ref().child("Video Tutorials");
+            databaseRef.once("value").then(function() {
+                var dateStr = new Date().getTime();
+
+                var time = new Date();
+                var dateStr = new Date().getTime();
+                var option = {
+                    weekday: "long",
+                    month: "long",
+                    day: "2-digit",
+                    year: "numeric",
+                };
+                var blogData = {
+                    "desc": desc,
+                    "title": title,
+                    "url": subtitle,
+                    "time": time.toLocaleString('en-US', {
+                        hours: 'numeric',
+                        minutes: 'numeric',
+                        seconds: 'numeric',
+                        hours12: true
+                    }),
+                    "date": time.toLocaleDateString('en-US', option),
+                    "count": 10000000000000 - dateStr,
+                };
+
+                var newPostRef = databaseRef.child(numberStr);
+                //var newPostRef = firebase.firestore.collection("Blogs");
+
+                newPostRef.set(blogData, function(err) {
+                    if (!err) {
+                        $("#result").attr("class", "alert alert-success");
+                        $("#result").html("Video has been uploaded successfully...!");
+
+                        $("#main-form")[0].reset();
+                        $("#selected-image").fadeOut();
+                        $("#upload-progress").html("Completed...!");
+
+                        window.location.assign("index.html");
+
+
+                    } else {
+                        $("#result").attr("class", "alert alert-danger");
+                        $("#result").html("An error occuried in the upload of your post...!");
+                    }
+                });
+
+            });
+        })
+    </script>
+
+</body>
+
+</html>
