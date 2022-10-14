@@ -192,7 +192,7 @@
                             var newPostRef = databaseRef.child();
                             //var newPostRef = firebase.firestore.collection("Blogs");
 
-                            newPostRef.set(blogData, function(err) {
+                            newPostRef.push(blogData, function(err) {
                                 if (!err) {
                                     $("#result").attr("class", "alert alert-success");
                                     $("#result").html("Post has been uploaded successfully...!");
