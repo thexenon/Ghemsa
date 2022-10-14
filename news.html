@@ -189,7 +189,7 @@
                                 "count": 10000000000000 - dateStr,
                             };
 
-                            var newPostRef = databaseRef.child();
+                            var newPostRef = databaseRef.child(numberStr);
                             //var newPostRef = firebase.firestore.collection("Blogs");
 
                             newPostRef.push(blogData, function(err) {
