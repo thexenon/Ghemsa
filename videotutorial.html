@@ -55,13 +55,14 @@
                     <div class="invalid-feedback">
                         Write a Video Title.
                     </div>
+                </div><div class="form-group">
+                    <input id="main-video" type="file" class="form-control">
+                    <div class="invalid-feedback">
+                        Please choose a valid video.
+                    </div>
                 </div>
                 <div class="form-group">
-                    <input id="main-subtitle" rows="4" placeholder="Video URL..." class="form-control">
-
-                    <div class="invalid-feedback">
-                        Write a URL.
-                    </div>
+                    <video id="selected-video" src="#" width="250" height="150" controls></video>
                 </div>
                 <div class="form-group">
                     <textarea id="main-desc" rows="4" placeholder="Video Description..." class="form-control"></textarea>
@@ -77,10 +78,29 @@
     </div>
 
     <script>
+        var validVideotypes = ["video/mp4", "video/avi", "video/mkv", "video/MPEG", "video/MPEG-4"];
+        $("#selected-video").hide();
+
+        function previewImage(video_blog) {
+
+            if (video_blog.files && video_blog.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $("#selected-video").attr('src', e.target.result);
+                    $("#selected-video").fadeIn();
+                }
+                reader.readAsDataURL(video_blog.files[0]);
+            }
+        }
+
+        $("#main-video").change(function() {
+            previewImage(this);
+        });
         $("#save-blog").click(function() {
             $("#main-desc").removeClass("is-invalid");
             $("#main-title").removeClass("is-invalid");
-            $("#main-subtitle").removeClass("is-invalid");
+            $("#main-video").removeClass("is-invalid");
 
             var desc = $("#main-desc").val();
             var title = $("#main-title").val();
@@ -98,60 +118,86 @@
                 $("#main-desc").addClass("is-invalid");
                 return;
             }
+            var picture = $("#main-video").prop("files")[0];
+            if (picture == null) {
+                $("#main-video").addClass("is-invalid");
+                return;
+            }
+            if ($.inArray(picture["type"], validVideotypes) < 0) {
+                $("#main-video").addClass("is-invalid");
+                return;
+            }
+
 
 
             var dateStr = new Date().getTime();
             var numberStr = 10000000000000 - dateStr
             var databaseRef = firebase.database().ref().child("Video Tutorials");
             databaseRef.once("value").then(function() {
+                var name = picture["name"];
                 var dateStr = new Date().getTime();
-
-                var time = new Date();
+                var fileCompleteName = "0" + numberStr;
                 var dateStr = new Date().getTime();
-                var option = {
-                    weekday: "long",
-                    month: "long",
-                    day: "2-digit",
-                    year: "numeric",
-                };
-                var blogData = {
-                    "desc": desc,
-                    "title": title,
-                    "url": subtitle,
-                    "time": time.toLocaleString('en-US', {
-                        hours: 'numeric',
-                        minutes: 'numeric',
-                        seconds: 'numeric',
-                        hours12: true
-                    }),
-                    "date": time.toLocaleDateString('en-US', option),
-                    "count": 10000000000000 - dateStr,
-                };
+                var storageRef = firebase.storage().ref("Video");
+                var blogStorageRef = storageRef.child(fileCompleteName);
+                var uploadTask = blogStorageRef.put(picture);
+                uploadTask.on("state_changed",
+                    function progress(snapshot) {
+                        var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        $("#upload-progress").html(Math.round(percentage) + "%");
+                        $("#upload-progress").attr("style", "width: " + percentage + "%");
 
-                var newPostRef = databaseRef.child(numberStr);
-                //var newPostRef = firebase.firestore.collection("Blogs");
+                        uploadTask.snapshot.ref.getDownloadURL().then(function(downloadUrl) {
+                            var time = new Date();
+                            var dateStr = new Date().getTime();
+                            var option = {
+                                weekday: "long",
+                                month: "long",
+                                day: "2-digit",
+                                year: "numeric",
+                            };
+                            var blogData = {
+                                "desc": desc,
+                                "url": downloadUrl,
+                                "title": title,
+                                "url": subtitle,
+                                "time": time.toLocaleString('en-US', {
+                                    hours: 'numeric',
+                                    minutes: 'numeric',
+                                    seconds: 'numeric',
+                                    hours12: true
+                                }),
+                                "date": time.toLocaleDateString('en-US', option),
+                                "count": 10000000000000 - dateStr,
+                            };
 
-                newPostRef.set(blogData, function(err) {
-                    if (!err) {
-                        $("#result").attr("class", "alert alert-success");
-                        $("#result").html("Video has been uploaded successfully...!");
+                            var newPostRef = databaseRef.child(numberStr);
+                            //var newPostRef = firebase.firestore.collection("Blogs");
 
-                        $("#main-form")[0].reset();
-                        $("#selected-image").fadeOut();
-                        $("#upload-progress").html("Completed...!");
+                            newPostRef.set(blogData, function(err) {
+                                if (!err) {
+                                    $("#result").attr("class", "alert alert-success");
+                                    $("#result").html("Video has been uploaded successfully...!");
 
-                        window.location.assign("index.html");
+                                    $("#main-form")[0].reset();
+                                    $("#selected-video").fadeOut();
+                                    $("#upload-progress").html("Completed...!");
+
+                                    window.location.assign("index.html");
 
 
-                    } else {
-                        $("#result").attr("class", "alert alert-danger");
-                        $("#result").html("An error occuried in the upload of your post...!");
-                    }
-                });
-
+                                } else {
+                                    $("#result").attr("class", "alert alert-danger");
+                                    $("#result").html("An error occuried in the upload of your post...!");
+                                }
+                            });
+                        });
+                    },
+                );
             });
         })
     </script>
+    
 
 </body>
 
