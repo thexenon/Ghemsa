@@ -104,14 +104,9 @@
 
             var desc = $("#main-desc").val();
             var title = $("#main-title").val();
-            var subtitle = $("#main-subtitle").val();
 
             if (!title) {
                 $("#main-title").addClass("is-invalid");
-                return;
-            }
-            if (!subtitle) {
-                $("#main-subtitle").addClass("is-invalid");
                 return;
             }
             if (!desc) {
@@ -160,7 +155,6 @@
                                 "desc": desc,
                                 "url": downloadUrl,
                                 "title": title,
-                                "url": subtitle,
                                 "time": time.toLocaleString('en-US', {
                                     hours: 'numeric',
                                     minutes: 'numeric',
