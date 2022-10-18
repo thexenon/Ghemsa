@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "234156203811",
+    "firebase_url": "https://ghemsa-app-default-rtdb.firebaseio.com",
+    "project_id": "ghemsa-app",
+    "storage_bucket": "ghemsa-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:234156203811:android:2b6ce723b276d6658e7696",
+        "android_client_info": {
+          "package_name": "com.thexenon.ghemsaapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "234156203811-3m87f4385pdf0hke537fvjdvgvdadcer.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDf9f5JkdUWQ0Pr-okHADWXLqWk6WCXxA0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "234156203811-3m87f4385pdf0hke537fvjdvgvdadcer.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

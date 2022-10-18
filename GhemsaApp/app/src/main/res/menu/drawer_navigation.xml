@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--Each item id should be same as in the nav_graph fragment id-->
+
+
+    <item
+        android:id="@+id/idnews"
+        android:icon="@drawable/ic_news"
+        android:title="News" />
+    <item
+        android:id="@+id/idslides"
+        android:icon="@drawable/ic_pdsf"
+        android:title="Slides" />
+    <item
+        android:id="@+id/idlab"
+        android:icon="@drawable/ic_slides"
+        android:title="Lab Works" />
+
+    <item
+        android:id="@+id/idpasco"
+        android:icon="@drawable/ic_pasco"
+        android:title="Past Question" />
+    <item
+        android:id="@+id/idprogram"
+        android:icon="@drawable/ic_program"
+        android:title="Program Outline" />
+    <item
+        android:id="@+id/idevents"
+        android:icon="@drawable/ic_events"
+        android:title="Events Outline" />
+
+    <item
+        android:id="@+id/idtime"
+        android:icon="@drawable/ic_timetable"
+        android:title="Time Table" />
+
+    <item
+        android:id="@+id/idperson"
+        android:icon="@drawable/ic_person"
+        android:title="Personality of the Week" />
+    <item
+        android:id="@+id/idvideo"
+        android:icon="@drawable/ic_tutorials"
+        android:title="Video Tutorials" />
+    <item
+        android:id="@+id/idabout"
+        android:icon="@drawable/ic_about"
+        android:title="About" />
+
+</menu>

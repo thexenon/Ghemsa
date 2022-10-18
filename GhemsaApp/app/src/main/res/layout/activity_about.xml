@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+        tools:context=".activities.AboutActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pagermain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <me.relex.circleindicator.CircleIndicator
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_alignBottom="@+id/view_pagermain"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="10dp" />
+
+        <Button
+            android:id="@+id/preBtn"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="Pre"
+            android:background="#fff"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            android:onClick="pre"
+            tools:ignore="OnClick" />
+
+        <Button
+            android:id="@+id/nxtBtn"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:text="Next"
+            android:background="#fff"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            android:onClick="nxt"
+            tools:ignore="OnClick" />
+
+        <ProgressBar
+            android:id="@+id/listProgressID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:padding="20dp"
+            android:textColor="#000"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:text="The GHEMSA Handbook is the official mobile App for students in Ghana Herbal Medical Students' Association,  GHEMSA-KNUST. \n\n
+It is a mobile handbook for  course materials and also a part of the information system of GHEMSA. \n It's main objective is to make learning and access to course contents easier and faster.
+\n\n Developer \n\n
+THE EDMOND - BOATENG LED ADMINISTRATION
+ _2022-2023_" />
+    </androidx.core.widget.NestedScrollView>
+
+
+
+</LinearLayout>
