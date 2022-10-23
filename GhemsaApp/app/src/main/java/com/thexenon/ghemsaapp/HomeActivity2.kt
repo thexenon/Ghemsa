@@ -29,6 +29,8 @@ class HomeActivity2 : AppCompatActivity() {
     private lateinit var database: DatabaseReference
     private lateinit var headerView : View
     private lateinit var welcomeTextView: TextView
+    private lateinit var drawerLayout : DrawerLayout
+    private lateinit var navView : NavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +39,8 @@ class HomeActivity2 : AppCompatActivity() {
         database = Firebase.database.reference
 
 
-        val drawerLayout : DrawerLayout = findViewById(R.id.main_drawer_layout)
-        val navView : NavigationView = findViewById(R.id.main_navigation_view)
+        drawerLayout = findViewById(R.id.main_drawer_layout)
+        navView = findViewById(R.id.main_navigation_view)
         val header = navView.getHeaderView(0)
         welcomeTextView = header.findViewById<TextView>(R.id.headerWelcomeTextView)
 
@@ -67,6 +69,14 @@ class HomeActivity2 : AppCompatActivity() {
             true
         }
 
+    }
+
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
     }
 
     override fun onStart() {

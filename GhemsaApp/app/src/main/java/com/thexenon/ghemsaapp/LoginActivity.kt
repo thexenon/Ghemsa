@@ -117,7 +117,9 @@ class LoginActivity : AppCompatActivity() {
     fun updateUI(){
         val user = auth.currentUser
         if (user != null) {
+            val intent =
             startActivity(Intent(this@LoginActivity, HomeActivity2::class.java))
+            finish()
         } else {
             //startActivity(Intent(this@LoginActivity, LoginActivity::class.java))
         }
