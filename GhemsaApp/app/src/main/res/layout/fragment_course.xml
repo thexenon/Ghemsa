@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="Year 4 Course"
+                    android:text="Year 4 Courses"
                     android:textSize="20sp"
                     android:textColor="#000" />
 

@@ -67,16 +67,32 @@ class CourseFragment : Fragment() {
         year4btn = view.findViewById(R.id.year4recyclerview)
 
         year1btn.setOnClickListener {
+            if(year1recyclerview.visibility == View.VISIBLE){
+                year1recyclerview.visibility = View.GONE
+            } else {
             year1recyclerview.visibility = View.VISIBLE
+            }
         }
         year2btn.setOnClickListener {
-            year2recyclerview.visibility = View.VISIBLE
+            if(year2recyclerview.visibility == View.VISIBLE){
+                year2recyclerview.visibility = View.GONE
+            } else {
+                year2recyclerview.visibility = View.VISIBLE
+            }
         }
         year3btn.setOnClickListener {
-            year3recyclerview.visibility = View.VISIBLE
+            if(year3recyclerview.visibility == View.VISIBLE){
+                year3recyclerview.visibility = View.GONE
+            } else {
+                year3recyclerview.visibility = View.VISIBLE
+            }
         }
         year4btn.setOnClickListener {
-            year4recyclerview.visibility = View.VISIBLE
+            if(year4recyclerview.visibility == View.VISIBLE){
+                year4recyclerview.visibility = View.GONE
+            } else {
+                year4recyclerview.visibility = View.VISIBLE
+            }
         }
 
 //        newsarraylist = arrayListOf<News>()
