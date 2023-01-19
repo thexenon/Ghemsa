@@ -128,7 +128,7 @@ class CourseFragment : Fragment() {
 //            }
 //
 //            override fun onCancelled(error: DatabaseError) {
-//                TODO("Not yet implemented")
+//
 //            }
 //
 //        })
@@ -156,7 +156,7 @@ class CourseFragment : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+
             }
 
         })
@@ -183,7 +183,7 @@ class CourseFragment : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+
             }
 
         })
@@ -210,7 +210,7 @@ class CourseFragment : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+
             }
 
         })
@@ -237,7 +237,7 @@ class CourseFragment : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+
             }
 
         })
