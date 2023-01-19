@@ -17,11 +17,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.thexenon.ghemsaapp.activities.*
-import com.thexenon.ghemsaapp.fragments.CourseFragment
-import com.thexenon.ghemsaapp.fragments.NewsFragment
-import com.thexenon.ghemsaapp.fragments.PernalityFragment
-import com.thexenon.ghemsaapp.fragments.ProgramFragment
-import com.thexenon.ghemsaapp.fragments.TimeFragment
+import com.thexenon.ghemsaapp.fragments.*
 
 class HomeActivity2 : AppCompatActivity() {
     lateinit var toggle: ActionBarDrawerToggle
@@ -63,6 +59,7 @@ class HomeActivity2 : AppCompatActivity() {
                 R.id.idnews -> changeFragment(NewsFragment(), "News")
                 R.id.idperson -> changeFragment(PernalityFragment(), "Personality of the Week")
                 R.id.idtime -> changeFragment(TimeFragment(), "Time Tables")
+                R.id.idconst -> changeFragment(ConstitutionFragment(), "Constitution")
                 R.id.idprogram -> changeFragment(CourseFragment(), "Programs")
                 R.id.idevents -> changeFragment(ProgramFragment(), "Events")
             }

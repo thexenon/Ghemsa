@@ -98,4 +98,8 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     //indicatorr
     implementation 'me.relex:circleindicator:1.2.2@aar'
+
+    //PDF Reader
+    //implementation 'com.github.barteksc:android-pdf-viewer:2.5.1'
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
 }

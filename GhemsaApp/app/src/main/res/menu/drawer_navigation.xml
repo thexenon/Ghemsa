@@ -45,6 +45,10 @@
         android:icon="@drawable/ic_tutorials"
         android:title="Video Tutorials" />
     <item
+        android:id="@+id/idconst"
+        android:icon="@drawable/ic_const"
+        android:title="Constitution" />
+    <item
         android:id="@+id/idabout"
         android:icon="@drawable/ic_about"
         android:title="About" />
