@@ -17,6 +17,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.thexenon.ghemsaapp.activities.*
+import com.thexenon.ghemsaapp.chats.messages.LatestMessagesActivity
+import com.thexenon.ghemsaapp.chats.ui.register.RegisterActivity
 import com.thexenon.ghemsaapp.fragments.*
 
 class HomeActivity2 : AppCompatActivity() {
@@ -56,6 +58,16 @@ class HomeActivity2 : AppCompatActivity() {
                 R.id.idvideo -> startActivity(Intent(applicationContext, VideoActivity::class.java))
                 R.id.idlab -> startActivity(Intent(applicationContext, LabWorksActivity::class.java))
                 R.id.idabout -> startActivity(Intent(applicationContext, AboutActivity::class.java))
+                R.id.idchats -> {
+                    database.child("/users/${auth.currentUser!!.uid}").child("uid").get().addOnSuccessListener {
+                        val image = "${it.value}"
+                        if (image == auth.currentUser!!.uid){
+                            startActivity(Intent(applicationContext, LatestMessagesActivity::class.java))
+                        } else {
+                            startActivity(Intent(applicationContext, RegisterActivity::class.java))
+                        }
+                    }
+                }
                 R.id.idnews -> changeFragment(NewsFragment(), "News")
                 R.id.idperson -> changeFragment(PernalityFragment(), "Personality of the Week")
                 R.id.idtime -> changeFragment(TimeFragment(), "Time Tables")

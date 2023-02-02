@@ -30,6 +30,10 @@
         android:id="@+id/idevents"
         android:icon="@drawable/ic_events"
         android:title="Events Outline" />
+    <item
+        android:id="@+id/idchats"
+        android:icon="@drawable/ic_chats"
+        android:title="Chats" />
 
     <item
         android:id="@+id/idtime"
